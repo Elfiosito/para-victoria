@@ -1,0 +1,237 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+
+<!-- NOMBRE DE LA PÁGINA -->
+<title>Para Victoria Sandin Cañez ❤️</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        overflow: hidden;
+    }
+
+    /* Fondo animado */
+    .fondo-animado {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+    }
+
+    .flotante {
+        position: absolute;
+        bottom: -30px;
+        animation: flotar 10s linear infinite;
+        opacity: 0.8;
+        pointer-events: none;
+    }
+
+    @keyframes flotar {
+        0% { transform: translateY(0); opacity: 0; }
+        10% { opacity: 1; }
+        100% { transform: translateY(-110vh); opacity: 0; }
+    }
+
+    /* CUADRO PRINCIPAL */
+    .card {
+        background: #cce7ff;
+        padding: 25px;
+        border-radius: 15px;
+        text-align: center;
+        max-width: 420px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        position: relative;
+        z-index: 2;
+    }
+
+    button {
+        padding: 10px 20px;
+        margin: 10px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .si { background: #ff4d6d; color: white; }
+    .no { background: #999; color: white; }
+
+    img {
+        max-width: 100%;
+        max-height: 250px;
+        object-fit: contain;
+        border-radius: 10px;
+        margin-top: 15px;
+    }
+
+    .heart {
+        position: fixed;
+        bottom: -20px;
+        animation: floatUp 4s linear forwards;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    @keyframes floatUp {
+        to {
+            transform: translateY(-100vh) scale(1.5);
+            opacity: 0;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="fondo-animado" id="fondo"></div>
+
+<div class="card" id="contenido">
+    <h3> Hola amor</h3>
+    <p>Hoy cumplimos un mes desde que tomamos la decisión de estar juntos.</p>
+    <h3>Entonces quiero saber ¿Me amas?</h3>
+    <button class="si " onclick="respuestaSi()">Sí 😍</button>
+    <button class="no" onclick="respuestaNo()">No 😈</button>
+</div>
+
+<script>
+let intentosNo = 0;
+
+/* Fondo con corazones y estrellas */
+function crearFondoAnimado() {
+    const fondo = document.getElementById("fondo");
+    const simbolos = ["❤️", "⭐"];
+
+    setInterval(() => {
+        const e = document.createElement("div");
+        e.className = "flotante";
+        e.innerHTML = simbolos[Math.floor(Math.random() * simbolos.length)];
+        e.style.left = Math.random() * 100 + "vw";
+        e.style.fontSize = (16 + Math.random() * 24) + "px";
+        fondo.appendChild(e);
+        setTimeout(() => e.remove(), 10000);
+    }, 500);
+}
+crearFondoAnimado();
+
+/* BOTÓN NO */
+function respuestaNo() {
+    intentosNo++;
+
+    let texto = "";
+    let imagen = "";
+    let mover = false;
+
+    if (intentosNo === 1) {
+        texto = "Espera.... ¿Apretaste no....?😮💔";
+        imagen = "imagen1.jpg";
+    } else if (intentosNo === 2) {
+        texto = "PERO ¿Acaso… volviste a apretar que  no? 😢💔 VUELVE A INTENTAR";
+        imagen = "imagen2.jpg";
+    } else {
+        texto = "Ok, no me dejas otra opción. Apreta sí.😈😠🤬";
+        imagen = "imagen3.jpg";
+        mover = true;
+    }
+
+    document.getElementById("contenido").innerHTML = `
+        <p><strong>${texto}</strong></p>
+        <img src="${imagen}">
+        <br><br>
+        <button class="si" onclick="respuestaSi()">Sí</button>
+        <button class="no" id="btnNo"
+            onclick="respuestaNo()"
+            ${mover ? 'onmouseover="moverNo()" ontouchstart="moverNo()"' : ''}>
+            No
+        </button>
+    `;
+}
+
+function moverNo() {
+    const b = document.getElementById("btnNo");
+
+    // sacar el botón del cuadro y ponerlo sobre toda la pantalla
+    document.body.appendChild(b);
+
+    b.style.position = "fixed";
+    b.style.zIndex = "9999";
+
+    const maxX = window.innerWidth - b.offsetWidth;
+    const maxY = window.innerHeight - b.offsetHeight;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    b.style.left = x + "px";
+    b.style.top = y + "px";
+}
+
+
+/* BOTÓN SÍ */
+function respuestaSi() {
+    lanzarCorazones();
+    document.getElementById("contenido").innerHTML = `
+        <h2>💖 Sabía que dirías que sí 💖</h2>
+        <img src="imagen4.jpg">
+        <br><br>
+        <a href="https://www.youtube.com/watch?v=n2Cld9aU1vU" target="_blank">
+            <button class="si">Escuchar la canción 🎶</button>
+        </a>
+        <br><br>
+        <button class="si" onclick="mostrarCarta()">Continuar</button>
+    `;
+}
+
+/* CARTA FINAL */
+function mostrarCarta() {
+    document.getElementById("contenido").innerHTML = `
+       <h2>Para ti ❤️</h2>
+
+<p>
+    Este mes a tu lado, incluso a la distancia, ha sido uno de los más especiales
+    de mi vida. Doy gracias a la vida por haberte puesto en mi camino y por
+    permitirme compartir este amor contigo.
+</p>
+
+<p>
+    Sé que a lo largo de este mes hemos tenido algunas complicaciones, pero por
+    suerte nunca han sido por falta de amor. Tengo claro que en el camino pueden
+    venir momentos difíciles de vez en cuando, pero aun así quiero que sigamos
+    eligiéndonos y estando juntos.
+</p>
+
+<p>
+    Quiero que podamos resolver nuestras diferencias e inseguridades, porque yo estoy
+    aquí, dispuesto a todo por ti, mi vida. Te amo Victoria :3
+
+    `;
+}
+
+/* LLUVIA DE CORAZONES */
+function lanzarCorazones() {
+    for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+            const h = document.createElement("div");
+            h.className = "heart";
+            h.innerHTML = "❤️";
+            h.style.left = Math.random() * 100 + "vw";
+            document.body.appendChild(h);
+            setTimeout(() => h.remove(), 4000);
+        }, i * 150);
+    }
+}
+</script>
+
+</body>
+</html>
